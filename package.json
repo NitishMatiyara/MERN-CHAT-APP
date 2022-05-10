@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": " nodemon backend/server.js",
-    "build": "webpack"
+    
   },
   "author": "Nitish",
   "license": "ISC",
