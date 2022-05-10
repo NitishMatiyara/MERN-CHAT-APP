@@ -5,7 +5,6 @@
   "main": "server.js",
   "scripts": {
     "start": " nodemon backend/server.js"
-   
     
   },
   "author": "Nitish",
