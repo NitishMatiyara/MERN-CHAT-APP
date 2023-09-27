@@ -51,7 +51,7 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        "/api/user",
+        "https://mern-chat-app-server-qzq3.onrender.com/api/user",
         {
           name,
           email,
@@ -155,7 +155,12 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick} colorScheme="green">
+            <Button
+              h="1.75rem"
+              size="sm"
+              onClick={handleClick}
+              colorScheme="green"
+            >
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -170,7 +175,12 @@ const Signup = () => {
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick} colorScheme="green">
+            <Button
+              h="1.75rem"
+              size="sm"
+              onClick={handleClick}
+              colorScheme="green"
+            >
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
