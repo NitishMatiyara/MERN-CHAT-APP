@@ -1,5 +1,6 @@
 const express = require("express");
 const connectDB = require("./config/db");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
@@ -12,6 +13,7 @@ dotenv.config();
 connectDB();
 const app = express();
 
+app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json()); // to accept json data
 
 app.get("/", (req, res) => {
