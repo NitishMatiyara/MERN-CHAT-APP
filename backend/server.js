@@ -9,11 +9,11 @@ const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 const path = require("path");
 const colors = require("colors");
 
+app.use(cors({ origin: process.env.CLIENT_URL }));
 dotenv.config();
 connectDB();
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json()); // to accept json data
 
 app.get("/", (req, res) => {
