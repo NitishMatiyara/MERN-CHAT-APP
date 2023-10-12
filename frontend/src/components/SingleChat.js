@@ -1,4 +1,5 @@
 import { FormControl } from "@chakra-ui/form-control";
+import { useRef } from "react";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
@@ -11,10 +12,13 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
-
+import { LiaSmileSolid } from "react-icons/lia";
+import { IoArrowRedoSharp } from "react-icons/io5";
+import EmojiPicker from "emoji-picker-react";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
+import UserCallAlert from "./miscellaneous/UserCallAlert";
 const ENDPOINT = process.env.BACKEND_SERVER_URL; //  -> After deployment
 var socket, selectedChatCompare;
 
@@ -25,6 +29,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+  const [showEmojis, setShowEmojis] = useState(false);
+
   const toast = useToast();
 
   const defaultOptions = {
@@ -37,6 +43,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
   const { selectedChat, setSelectedChat, user, notification, setNotification } =
     ChatState();
+  const [call, setCall] = useState({});
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -91,6 +98,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         socket.emit("new message", data);
         setMessages([...messages, data]);
+        setShowEmojis(!showEmojis);
       } catch (error) {
         toast({
           title: "Error Occured!",
@@ -122,6 +130,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   }, [selectedChat]);
 
   useEffect(() => {
+    socket.on("callUser", ({ from, name: callerName, signal }) => {
+      setCall({ isReceivingCall: true, from, name: callerName, signal });
+    });
     socket.on("message recieved", (newMessageRecieved) => {
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
@@ -137,8 +148,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     });
   });
 
-  const typingHandler = (e) => {
-    setNewMessage(e.target.value);
+  const typingHandler = (event) => {
+    setNewMessage(event.target.value);
 
     if (!socketConnected) return;
 
@@ -158,13 +169,22 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }, timerLength);
   };
 
+  const emojiHandler = () => {
+    setShowEmojis(!showEmojis);
+  };
+
+  const onEmojiClick = (emojiObject) => {
+    setNewMessage((prevMsg) => prevMsg + emojiObject.emoji);
+  };
+
   return (
     <>
+      {call.isReceivingCall && <UserCallAlert call={call} />}
       {selectedChat ? (
         <>
           <Text
             fontSize={{ base: "28px", md: "30px" }}
-            pb={3}
+            pb={1}
             px={2}
             w="100%"
             fontFamily="Work sans"
@@ -200,7 +220,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             display="flex"
             flexDir="column"
             justifyContent="flex-end"
-            p={3}
+            p={2}
             bg="#E8E8E8"
             w="100%"
             h="100%"
@@ -239,13 +259,42 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              <Input
-                variant="filled"
-                bg="#E0E0E0"
-                placeholder="Enter a message.."
-                value={newMessage}
-                onChange={typingHandler}
-              />
+              {showEmojis && (
+                <EmojiPicker
+                  onEmojiClick={onEmojiClick}
+                  height={300}
+                  width={300}
+                />
+              )}
+              <Box
+                display="flex"
+                justifyContent="center"
+                p={1}
+                bg="gray"
+                w="100%"
+                // m="40px 0 15px 0"
+                borderRadius="lg"
+                borderWidth="1px"
+                gap={1}
+              >
+                <IconButton
+                  icon={<LiaSmileSolid size={28} color="gray" />}
+                  onClick={emojiHandler}
+                  display={{ base: "flex" }}
+                ></IconButton>
+                <Input
+                  variant="unstyled"
+                  bg="white"
+                  placeholder="Enter a message.."
+                  value={newMessage}
+                  onChange={typingHandler}
+                />
+                <IconButton
+                  icon={<IoArrowRedoSharp size={20} color="gray" />}
+                  display={{ base: "flex" }}
+                  onClick={sendMessage}
+                ></IconButton>
+              </Box>
             </FormControl>
           </Box>
         </>

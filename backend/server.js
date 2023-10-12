@@ -9,11 +9,11 @@ const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 const path = require("path");
 const colors = require("colors");
 
-dotenv.config();
+require("dotenv").config();
 connectDB();
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json()); // to accept json data
 
 app.get("/", (req, res) => {
@@ -28,7 +28,7 @@ app.use("/api/message", messageRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 const server = app.listen(
   PORT,
@@ -72,5 +72,23 @@ io.on("connection", (socket) => {
   socket.off("setup", () => {
     console.log("USER DISCONNECTED");
     socket.leave(userData._id);
+  });
+
+  // Video call //
+  socket.emit("me", socket.id);
+  socket.on("join call", (roomId) => {
+    socket.join(roomId);
+    console.log(`User connected to call inside room ${roomId}`);
+  });
+  socket.on("disconnect", () => {
+    socket.broadcast.emit("callEnded");
+  });
+
+  socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+    io.in(userToCall).emit("callUser", { from, name, signal: signalData });
+  });
+
+  socket.on("answerCall", (data) => {
+    io.in(data.to).emit("callAccepted", data.signal);
   });
 });

@@ -13,16 +13,35 @@ import {
   Text,
   Image,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Videocam } from "@material-ui/icons";
 
 const ProfileModal = ({ user, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [participant, setParticipant] = useState(user.name);
+  useEffect(() => {
+    localStorage.setItem("participant", JSON.stringify(participant));
+  }, []);
 
   return (
     <>
       {children ? (
         <span onClick={onOpen}>{children}</span>
       ) : (
-        <IconButton display={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />
+        <>
+          <Link to={"/videoChat"}>
+            <IconButton
+              icon={<Videocam />}
+              display={{ base: "flex" }}
+            ></IconButton>
+          </Link>
+          <IconButton
+            display={{ base: "flex" }}
+            icon={<ViewIcon />}
+            onClick={onOpen}
+          />
+        </>
       )}
       <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
