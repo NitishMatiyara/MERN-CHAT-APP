@@ -6,10 +6,6 @@ import Notifications from "./Notifications";
 
 const useStyles = makeStyles((theme) => ({
   video: {
-    maxWidth: "500px",
-    [theme.breakpoints.down("xs")]: {
-      maxWidth: "87vw",
-    },
     borderRadius: "3%",
   },
   gridContainer: {
