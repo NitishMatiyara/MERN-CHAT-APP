@@ -31,7 +31,6 @@ const Login = () => {
       return;
     }
 
-    // console.log(email, password);
     try {
       const config = {
         headers: {
@@ -45,7 +44,6 @@ const Login = () => {
         config
       );
 
-      // console.log(JSON.stringify(data));
       toast({
         title: "Login Successful",
         status: "success",
@@ -90,7 +88,12 @@ const Login = () => {
             placeholder="Enter password"
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick} colorScheme="green">
+            <Button
+              h="1.75rem"
+              size="sm"
+              onClick={handleClick}
+              colorScheme="green"
+            >
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -107,7 +110,7 @@ const Login = () => {
       </Button>
       <Button
         variant="solid"
-        colorScheme='orange'
+        colorScheme="orange"
         width="100%"
         onClick={() => {
           setEmail("guest@example.com");
