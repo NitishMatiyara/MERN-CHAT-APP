@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
     backgroundColor: "black",

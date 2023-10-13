@@ -7,14 +7,14 @@ import Notifications from "./Notifications";
 const useStyles = makeStyles((theme) => ({
   video: {
     maxWidth: "500px",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("xs")]: {
       maxWidth: "87vw",
     },
     borderRadius: "3%",
   },
   gridContainer: {
     justifyContent: "center",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("xs")]: {
       flexDirection: "column",
     },
   },
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: "6px",
     width: "38%",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("xs")]: {
       width: "90%",
     },
     border: "2px solid gray",
