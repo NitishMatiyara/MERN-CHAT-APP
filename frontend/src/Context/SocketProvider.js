@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 const SocketContext = createContext();
 
-const socket = io(process.env.BACKEND_SERVER_URL);
+const socket = io(process.env.REACT_APP_BACKEND_SERVER_URL);
 
 const ContextProvider = ({ children }) => {
   const history = useHistory();

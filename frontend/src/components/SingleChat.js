@@ -19,8 +19,10 @@ import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
 import UserCallAlert from "./miscellaneous/UserCallAlert";
-const ENDPOINT = process.env.BACKEND_SERVER_URL; //  -> After deployment
+const ENDPOINT = process.env.REACT_APP_BACKEND_SERVER_URL; //  -> After deployment
 var socket, selectedChatCompare;
+
+const API_URL = process.env.REACT_APP_BACKEND_SERVER_URL;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
@@ -58,7 +60,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `/api/message/${selectedChat._id}`,
+        `${API_URL}/api/message/${selectedChat._id}`,
         config
       );
       setMessages(data);
@@ -89,7 +91,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
         setNewMessage("");
         const { data } = await axios.post(
-          "/api/message",
+          `${API_URL}/api/message`,
           {
             content: newMessage,
             chatId: selectedChat,
