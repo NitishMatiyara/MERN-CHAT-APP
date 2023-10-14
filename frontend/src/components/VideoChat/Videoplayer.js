@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "3%",
     maxWidth: "600px",
     [theme.breakpoints.down("sm")]: {
-      maxWidth: "350px",
+      maxWidth: "260px",
     },
   },
   gridContainer: {
@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: "41%",
     [theme.breakpoints.down("sm")]: {
-      width: "90%",
+      width: "75%",
+      margin: "auto",
     },
     padding: "5px",
     border: "2px solid gray",

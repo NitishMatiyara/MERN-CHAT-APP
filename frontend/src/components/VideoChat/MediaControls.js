@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Typography, IconButton } from "@material-ui/core";
 import {
   PhoneEnabled,
@@ -30,17 +30,13 @@ const useStyles = makeStyles((theme) => ({
   },
   controls: { color: "white", fontSize: "x-large" },
   footer: {
-    position: "fixed",
-    bottom: "1rem",
     display: "flex",
     flexDirection: "column",
+    position: "fixed",
+    bottom: "1rem",
     alignItems: "center",
-    // [theme.breakpoints.down("md")]: {
-    //   display: "flex",
-    //   position: "fixed",
-    //   bottom: "1rem",
-    // },
   },
+  controlsBar: { display: "flex" },
 }));
 
 const Sidebar = ({ children }) => {
@@ -89,7 +85,7 @@ const Sidebar = ({ children }) => {
           </Typography>
         )}
 
-        <div>
+        <div className={classes.controlsBar}>
           <IconButton
             className={classes.circleIcon}
             onClick={() => toggleMuteVideo()}
