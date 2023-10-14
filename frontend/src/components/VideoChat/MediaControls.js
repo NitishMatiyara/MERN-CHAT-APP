@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    [theme.breakpoints.down("xs")]: {
-      display: "flex",
-      position: "fixed",
-      bottom: "1rem",
-    },
+    // [theme.breakpoints.down("md")]: {
+    //   display: "flex",
+    //   position: "fixed",
+    //   bottom: "1rem",
+    // },
   },
 }));
 

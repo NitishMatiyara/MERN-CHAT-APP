@@ -8,20 +8,20 @@ const useStyles = makeStyles((theme) => ({
   video: {
     borderRadius: "3%",
     maxWidth: "600px",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       maxWidth: "350px",
     },
   },
   gridContainer: {
     justifyContent: "center",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },
   },
 
   paper: {
     width: "41%",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "90%",
     },
     padding: "5px",
