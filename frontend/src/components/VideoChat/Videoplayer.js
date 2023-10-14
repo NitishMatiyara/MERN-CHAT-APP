@@ -7,6 +7,10 @@ import Notifications from "./Notifications";
 const useStyles = makeStyles((theme) => ({
   video: {
     borderRadius: "3%",
+    maxWidth: "600px",
+    [theme.breakpoints.down("xs")]: {
+      maxWidth: "350px",
+    },
   },
   gridContainer: {
     justifyContent: "center",
@@ -16,11 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
   paper: {
-    padding: "6px",
-    width: "38%",
+    width: "41%",
     [theme.breakpoints.down("xs")]: {
       width: "90%",
     },
+    padding: "5px",
     border: "2px solid gray",
     borderRadius: "3%",
     margin: "10px",
