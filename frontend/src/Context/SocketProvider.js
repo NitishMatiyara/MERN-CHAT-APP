@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 import Peer from "simple-peer";
 import { useHistory } from "react-router-dom";
 
+// Setting up context provider with socket & peer connections for Video/Audio live stream
 const SocketContext = createContext();
 
 const socket = io(process.env.REACT_APP_BACKEND_SERVER_URL);
