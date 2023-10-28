@@ -35,13 +35,13 @@ function Homepage() {
         borderWidth="1px"
       >
         <Text fontSize="4xl" fontFamily="Work sans">
-          Chat-in
+          Chat-Matrix
         </Text>
       </Box>
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
-        <Tabs isFitted variant="soft-rounded" colorScheme="green"   >
-          <TabList mb="1em" >
-            <Tab >Login</Tab>
+        <Tabs isFitted variant="soft-rounded" colorScheme="green">
+          <TabList mb="1em">
+            <Tab>Login</Tab>
             <Tab>Sign Up</Tab>
           </TabList>
           <TabPanels>

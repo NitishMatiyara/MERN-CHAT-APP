@@ -151,7 +151,7 @@ function SideDrawer() {
           </Button>
         </Tooltip>
         <Text fontSize="2xl" fontFamily="Work sans">
-          Chat-in
+          Chat-Matrix
         </Text>
         <div>
           <Menu>
