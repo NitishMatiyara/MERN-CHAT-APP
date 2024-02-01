@@ -21,10 +21,13 @@ app.get("/", (req, res) => {
 });
 app.use((req, res, next) => {
   const allowedOrigins = [process.env.CLIENT_URL];
+  console.log(req.headers)
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
+    console.log(origin)
        res.header('Access-Control-Allow-Origin', origin);
   } else {
+    console.log(origin)
     return res.status(400).json({error : "Unauthorized"})
   }
   // res.header('Access-Control-Allow-Origin', config.ALLOWED_ORIGIN)
