@@ -19,7 +19,19 @@ app.use(express.json()); // to accept json data
 app.get("/", (req, res) => {
   res.send("API running successfully..");
 });
+app.use((req, res, next) => {
+  const allowedOrigins = [process.env.CLIENT_URL];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+       res.header('Access-Control-Allow-Origin', origin);
+  } else {
+    return res.status(400).json({error : "Unauthorized"})
+  }
+  // res.header('Access-Control-Allow-Origin', config.ALLOWED_ORIGIN)
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
 
+  next()
+})
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
