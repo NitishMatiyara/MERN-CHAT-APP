@@ -2,27 +2,22 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const models = genAI.listModels();
-console.log(models);
-
-const model = genAI.getGenerativeModel({
-  model: "gemini-2.0-flash",
-});
-
-async function generateAIReply(message) {
+async function generateAIReply(prompt) {
   try {
 
-    const result = await model.generateContent(message);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+    });
 
-    const response = await result.response;
+    const result = await model.generateContent(prompt);
 
-    return response.text();
+    return result.response.text();
 
   } catch (error) {
 
     console.error("AI error:", error);
 
-    return "⚠️ AI service temporarily unavailable.";
+    return "AI is temporarily unavailable.";
   }
 }
 
