@@ -57,6 +57,8 @@ const io = require("socket.io")(server, {
     // credentials: true,
   },
 });
+app.set("io", io);
+
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
@@ -107,4 +109,3 @@ io.on("connection", (socket) => {
     io.in(data.to).emit("callAccepted", data.signal);
   });
 });
-app.set("io", io);
