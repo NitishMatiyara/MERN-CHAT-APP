@@ -84,7 +84,7 @@ const sendMessage = asyncHandler(async (req, res) => {
         io.to(user._id.toString()).emit("message recieved", aiMessage);
       });
 
-    }
+    
 }
   } catch (error) {
     res.status(400);
