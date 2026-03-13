@@ -107,3 +107,4 @@ io.on("connection", (socket) => {
     io.in(data.to).emit("callAccepted", data.signal);
   });
 });
+app.set("io", io);
