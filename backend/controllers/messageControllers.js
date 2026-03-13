@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 const Chat = require("../models/chatModel");
+const { generateAIReply } = require("../services/aiService");
 
 //@description     Get all Messages
 //@route           GET /api/Message/:chatId
@@ -48,6 +49,27 @@ const sendMessage = asyncHandler(async (req, res) => {
     await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
 
     res.json(message);
+    // AI assistant trigger
+if (content.startsWith("@ai")) {
+
+  const userPrompt = content.replace("@ai", "");
+
+  const aiReply = await generateAIReply(userPrompt);
+
+  if (aiReply) {
+
+    const aiMessage = await Message.create({
+      sender: req.user._id, // or create AI user
+      content: aiReply,
+      chat: chatId,
+    });
+
+    const populatedAIMessage = await aiMessage.populate("sender", "name pic");
+
+    // emit via socket
+    req.app.get("io").to(chatId).emit("message recieved", populatedAIMessage);
+  }
+}
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
