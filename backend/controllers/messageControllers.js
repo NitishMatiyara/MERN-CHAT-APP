@@ -49,26 +49,42 @@ const sendMessage = asyncHandler(async (req, res) => {
     await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
 
     res.json(message);
-    // AI assistant trigger
-if (content.startsWith("@ai")) {
+// ===== AI ASSISTANT TRIGGER =====
+    if (content.trim().startsWith("@ai")) {
 
-  const userPrompt = content.replace("@ai", "");
+      console.log("AI trigger detected:", content);
 
-  const aiReply = await generateAIReply(userPrompt);
+      const userPrompt = content.replace("@ai", "").trim();
 
-  if (aiReply) {
+      if (!userPrompt) return;
 
-    const aiMessage = await Message.create({
-      sender: req.user._id, // or create AI user
-      content: aiReply,
-      chat: chatId,
-    });
+      const aiReply = await generateAIReply(userPrompt);
 
-    const populatedAIMessage = await aiMessage.populate("sender", "name pic");
+      if (!aiReply) return;
 
-    // emit via socket
-    req.app.get("io").to(chatId).emit("message recieved", populatedAIMessage);
-  }
+      // Create AI message
+      let aiMessage = await Message.create({
+        sender: req.user._id, // you can later replace with AI user
+        content: `[AI] ${aiReply}`,
+        chat: chatId,
+      });
+
+      aiMessage = await aiMessage.populate("sender", "name pic");
+      aiMessage = await aiMessage.populate("chat");
+
+      aiMessage = await User.populate(aiMessage, {
+        path: "chat.users",
+        select: "name pic email",
+      });
+
+      const io = req.app.get("io");
+
+      // Emit AI message to all chat users
+      aiMessage.chat.users.forEach((user) => {
+        io.to(user._id.toString()).emit("message recieved", aiMessage);
+      });
+
+    }
 }
   } catch (error) {
     res.status(400);
