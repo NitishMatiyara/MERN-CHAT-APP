@@ -1,26 +1,28 @@
-const { GoogleGenAI } = require("@google/genai");
+const Groq = require("groq-sdk");
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
 });
 
-async function generateAIReply(prompt) {
+const generateAIReply = async (prompt) => {
   try {
-
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents: prompt,
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      model: "llama3-8b-8192",
+      temperature: 0.7,
+      max_tokens: 500,
     });
 
-    return response.text;
-
+    return chatCompletion.choices[0].message.content;
   } catch (error) {
-
     console.error("AI error:", error);
-
-    return "⚠️ AI service temporarily unavailable.";
-
+    return "AI service unavailable.";
   }
-}
+};
 
 module.exports = { generateAIReply };
