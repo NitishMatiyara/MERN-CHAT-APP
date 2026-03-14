@@ -64,7 +64,7 @@ const sendMessage = asyncHandler(async (req, res) => {
 
       // Create AI message
       let aiMessage = await Message.create({
-        sender: req.user._id, // you can later replace with AI user
+        sender: "69b54e13273019084a30c753", // you can later replace with AI user
         content: `[AI] ${aiReply}`,
         chat: chatId,
       });
