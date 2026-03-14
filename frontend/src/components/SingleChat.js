@@ -32,6 +32,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
+  const [aiTyping, setAiTyping] = useState(false);
 
   const toast = useToast();
 
@@ -72,8 +73,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const sendMessage = async (event) => {
-    if (event.key === "Enter" && newMessage) {
-      socket.emit("stop typing", selectedChat._id);
+if ((event.key === "Enter" || event.type === "click") && newMessage) {
+  socket.emit("stop typing", selectedChat._id);
+  if (newMessage.startsWith("@ai")) {
+  setAiTyping(true);
+}
       try {
         const config = {
           headers: {
@@ -137,6 +141,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         }
       } else {
         setMessages([...messages, newMessageRecieved]);
+        setAiTyping(false);
       }
     });
   });
@@ -240,7 +245,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               isRequired
               mt={3}
             >
-              {istyping ? (
+              {istyping  || aiTyping ? (
                 <div>
                   <Lottie
                     animationData={animationData}
